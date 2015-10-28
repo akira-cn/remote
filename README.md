@@ -4,8 +4,6 @@
 
 ## 快速上手
 
-1. 在你要控制的网页上加上socket.io和remote-server.js
-
 ```html
 <script src="http://s4.qhimg.com/static/535dde855bc726e2/socket.io-1.2.0.js"></script>
 <script src="http://s6.qhimg.com/!b91bd712/remote-server.js"></script>
@@ -29,6 +27,8 @@
 </script>
 ```
 
+1. 在你要控制的网页上加上socket.io和remote-server.js
+
 2. 在网页打开后按TAB键唤出二维码，手机扫描二维码绑定控制器
 
 3. 用控制器对远程网页进行控制。
@@ -37,7 +37,7 @@
 
 keydown, keyup, keypress, swipestart, swipeend, swiping, pinchstart, pinchend, pinch, rotate
 
-## demo
+## 示例
 
 [reveal slide](http://s.h5jun.com/slide)
 
