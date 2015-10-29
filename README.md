@@ -6,9 +6,9 @@
 
 ```html
 <script src="http://s4.qhimg.com/static/535dde855bc726e2/socket.io-1.2.0.js"></script>
-<script src="http://s6.qhimg.com/!b91bd712/remote-server.js"></script>
+<script src="http://s0.qhimg.com/!d3df86d4/remote-server.umd.js"></script>
 <script type="text/javascript">
-  var rs = new Remote.Server();
+  var rs = new RemoteServer();
   rs.on('keydown', function f(ev){
     var key = ev.data.key;
     //console.log(ev);
@@ -29,7 +29,7 @@
 
 1. 在你要控制的网页上加上socket.io和remote-server.js
 
-2. 创建Remote.Server()对象，注册要处理的事件方法
+2. 创建RemoteServer()对象，注册要处理的事件方法
 
 3. 在网页打开后按TAB键唤出二维码，手机扫描二维码绑定控制器
 
