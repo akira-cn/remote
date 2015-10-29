@@ -43,6 +43,8 @@ keydown, keyup, keypress, swipestart, swipeend, swiping, pinchstart, pinchend, p
 
 [reveal slide](http://s.h5jun.com/slide)
 
+[赛车游戏](http://remote.baomitu.com/static/demo/race/index.html)
+
 ## 开发者高级功能
 
 **修改二维码展现方式**
