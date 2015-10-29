@@ -31,7 +31,7 @@ function Client(server, connected){
 
     connected && connected(data.err, socket);
 
-    self.trigger('client_connected');
+    self.trigger('client_connected', data);
   });
 
   touch.config.swipeMinDistance = 50;

@@ -1,0 +1,23 @@
+html, body{
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+	width: 100%;
+	height: 100%;
+}
+
+.clearfix:after{
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+	zoom: 1;
+	_height: 1px;
+}
+
+*html .clearfix{
+	height: 1%;
+}
+
+*+html .clearfix{
+	height: 1%;
+}

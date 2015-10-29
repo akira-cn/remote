@@ -1,0 +1,79 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="images/base.css" type="text/css" media="all" />
+<title>塞车游戏 | undefined队</title>
+</head>
+<body>
+<div id="page">
+	<div class="clearfix"></div>
+	<div id="screen">
+		<div module="cloud" class="cloud"></div>
+		<div module="hill" class="hill"></div>
+		<div module="road" class="road"></div>
+		<div class="mask"></div>
+		<div module="cover" class="cover"></div>
+		<div module="car" class="car"></div>
+		<div id="pause"></div>
+		<div id="countdown">
+			3
+		</div>
+	</div>
+	<div id="info">
+		<div module="dashboard" class="speedInfo"></div>
+		<div id="paddle-option">
+			<input type="checkbox" />
+			<label>启用摇杆果断兼容 iPad</label>
+		</div>
+		<div module="paddle" id="paddle"></div>
+	</div>
+	<div class="line">
+		<strong>上键</strong> 启动/加速，<strong>下键</strong> 刹车，<strong>左右键</strong> 控制方向，<strong>P</strong> 键暂停/继续。
+	</div>
+	<div class="line">
+		<strong>TAB</strong> 键呼出二维码开启遥控模式，<strong>横置手机</strong>（屏幕朝自己）当方向盘进行操作~
+	</div>
+	<div class="line">
+		目前还是半成品状态：自由模式，只有一车，没有终点，没有油耗，撞不了树。<a href="http://weibo.com/baidujs" target="_blank" style="color: #66f;">我们的微博</a>
+	</div>
+	<div id="copyright">
+		----- Power by dron. 2010-09-06 -----
+	</div>
+</div>
+<div id="loading">
+	<div class="text">正在加载中，如果是首次打开，可能比较慢，请您耐心等待...</div>
+	<div class="bar">
+		<div id="loaded"></div>
+	</div>
+</div>
+<script type="text/javascript">
+	void function(){
+		var loaderBar = window.loaderBar = {};
+		var width = 676, time = 1;
+		loaderBar.loaded = document.getElementById("loaded");
+		loaderBar.width = 0;
+		void function(){
+			loaderBar.width += Math.round((width - loaderBar.width) / 30);
+			loaderBar.loaded.style.width = loaderBar.width + "px";
+			if(loaderBar.width < width){
+				time *= 1.2;
+				loaderBar.timer = setTimeout(arguments.callee, time);
+			}
+		}();
+		loaderBar.done = function(){
+			var loading = document.getElementById("loading");
+			clearTimeout(loaderBar.timer);
+			loaderBar.loaded.style.width = width + "px";
+			setTimeout(function(){
+				loading.style.display = "none";
+			}, 200);
+		};
+	}();
+</script>
+</body>
+<script type="text/javascript" src="scripts/loader.js"></script>
+<script type="text/javascript" src="scripts/canvas.js"></script>
+<script src="http://s4.qhimg.com/static/535dde855bc726e2/socket.io-1.2.0.js"></script>
+<script type="text/javascript" src="/static/js/remote-server.js"></script>
+</html>

@@ -57,6 +57,10 @@ export default class extends Base {
           if(s._tid){
             console.log(s._tid + ' reconnected.');
             s._tid = socket.id;
+            socket.emit('event', {
+              data:{sid:s.id, tid:s._tid, err:''}, 
+              src:s._tid, 
+              type:'client_connected'});
           }
         }
       }
@@ -85,10 +89,10 @@ export default class extends Base {
       //console.log(target._token);
       socket._token = target._token;
       target.emit('event', data);
-      var type = data.type;
-      if(type){
-        target.emit(type, data);
-      }
+      //var type = data.type;
+      //if(type){
+      //  target.emit(type, data);
+      //}
     }
   }
 }

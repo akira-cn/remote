@@ -1,0 +1,201 @@
+html, body{
+	width: auto;
+	height: 100%;
+}
+
+body{
+	background-color: #333;
+}
+
+#page{
+	width: auto;
+	text-align: center;
+}
+
+#screen{
+	width: 680px;
+	height: 300px;
+	margin: auto;
+	margin-top: 30px;
+	background-image: url(background.png);
+	position: relative;
+}
+
+#screen .cloud{
+	position: absolute;
+	width: 676px;
+	height: 196px;
+	left: 2px;
+	top: 2px;
+	background-image: url(cloud.jpg);
+	display: none;
+}
+
+#screen .hill{
+	position: absolute;
+	width: 676px;
+	height: 36px;
+	left: 2px;
+	top: 162px;
+	background-image: url(hill.gif);
+	display: none;
+}
+
+#screen .road,
+#screen .cover{
+	position: absolute;
+	left: 2px;
+	top: 198px;
+	width: 676px;
+	height: 100px;
+	overflow: hidden;
+}
+
+#screen .cover{
+	top: -2px;
+	height: 300px;
+}
+
+#screen .cover img{
+	position: absolute;
+	border: 0;
+}
+
+#screen .cover .point{
+	position: absolute;
+	background-color: red;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+
+#screen .mask{
+	position: absolute;
+	left: 2px;
+	top: 198px;
+	width: 676px;
+	height: 99px;
+	background-image: url(mask.png);
+	_background-image: none;
+	_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/mask.png',sizingMethod='scale');
+}
+
+#screen .car{
+	position: absolute;
+	width: 100px;
+	height: 100px;
+	left: 290px;
+	top: 208px;
+}
+
+#buttons{
+	margin: 10px auto;
+	width: 680px;
+	height: 30px;
+}
+
+#buttons button{
+	float: left;
+	height: 100%;
+	border-width: 1px;
+}
+
+#copyright{
+	color: #999;
+	margin: auto;
+	width: 680px;
+	line-height: 20px;
+	font-size: 12px;
+	text-align: center;
+}
+
+#page .line{
+	margin: auto;
+	color: #ccc;
+	width: 600px;
+	line-height: 30px;
+	font-size: 14px;
+	text-align: left;
+}
+
+#page .line strong{
+	font-size: 24px;
+	font-weight: 700;
+	color: yellow;
+}
+
+#page .line em{
+	color: #0ff;
+}
+
+#pause{
+	position: absolute;
+	width: 333px;
+	height: 78px;
+	left: 174px;
+	top: 111px;
+	background-image: url(pause.png);
+	_background-image: none;
+	_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/pause.png',sizingMethod='scale');
+	display: none;
+}
+
+#info{
+	width: 680px;
+	height: 145px;
+	margin: auto;
+	position: relative;
+	background-color: #080703;
+}
+
+#info .speedInfo{
+	width: 256px;
+	height: 145px;
+	left: 212px;
+	top: 0px;
+	position: absolute;
+	background-image: url(speed-bg.gif);
+}
+
+#paddle-option{
+	position: absolute;
+	line-height: 20px;
+	text-indent: 2px;
+	left: 10px;
+	top: 110px;
+}
+
+#paddle-option label{
+	font-size: 14px;
+	color: #ccc;
+}
+
+/* basicslippage */
+.ucrenlite-basicslippage-layer{
+	overflow: hidden;
+	line-height: 0;
+}
+.ucrenlite-basicslippage-inner{
+	text-decoration: none;
+	text-align: center;
+	font-size: 14px;
+	display: block;
+}
+
+#paddle{
+	position: absolute;
+	left: -146px;
+	top: 11px;
+	display: none;
+}
+
+/* paddle */
+.paddle-scene{
+	position: relative;
+}
+
+.paddle-item{
+	position: absolute;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+}

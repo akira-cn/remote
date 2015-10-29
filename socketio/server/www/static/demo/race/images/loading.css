@@ -1,0 +1,40 @@
+#loading{
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #fff;
+	text-align: center;
+}
+
+#loading .text{
+	position: relative;
+	width: 676px;
+	height: 20px;
+	top: 119px;
+	text-align: center;
+	font-size: 14px;
+	margin: auto;
+}
+
+#loading .bar{
+	position: relative;
+	width: 676px;
+	height: 18px;
+	top: 139px;
+	left: 0;
+	border-width: 2px;
+	border-color: #606060 #e9e7e3 #e9e7e3 #606060;
+	border-style: solid;
+	background-color: #fff;
+	text-align: left;
+	margin: auto;
+}
+
+#loaded{
+	width: 0px;
+	height: 18px;
+	overflow: hidden;
+	background-color: #0a246a;
+}

@@ -68,7 +68,7 @@ return /******/ (function(modules) { // webpackBootstrap
       });
    */
 
-  var touch = __webpack_require__(1);
+  var touch = __webpack_require__(2);
 
   function Client(server, connected){
     if(typeof server === 'function'){
@@ -87,7 +87,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
       connected && connected(data.err, socket);
 
-      self.trigger('client_connected');
+      self.trigger('client_connected', data);
     });
 
     touch.config.swipeMinDistance = 50;
@@ -235,7 +235,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 1 */
+/* 1 */,
+/* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
   var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! touchjs v0.2.14  2014-08-05 */
