@@ -19,7 +19,7 @@
         height: 0;  
       }  
       html,body{
-        background: #DA8516;
+        background: #000;
       }
       #doc{
         overflow: auto;
@@ -50,20 +50,28 @@
         vertical-align: middle;
         color: #bbb;
       }
-
+      #R, #S {
+        width:20%;
+        height:15%;
+        background:#22588A;
+      }
       #up {
-        width:100%;
+        width:60%;
         height:15%;
         background:#D0533F;
       }
-      
+      #A, #B {
+        width:20%;
+        height:15%;
+        background:#B31F39;
+      }      
       #left {
         width:20%;
         height: 70%;
         background:#494AA7;
       }
       
-      #center {
+      #C {
         width: 60%;
         height: 70%;
         background: #888;
@@ -76,31 +84,60 @@
       }
 
       #down {
-        width:100%;
+        width:60%;
         height: 15%;
         background:#DA8516;
       }
-
+      
+      @media (orientation: landscape) { 
+        #left, #right, #R, #S, #A, #B {
+          width: 15%;
+        }
+        #up, #down, #C {
+          width: 70%;
+        }
+        #C,#left,#right {
+          height: 60%;
+        }
+        #up, #R, #S {
+          height: 20%;
+        }
+        #A, #down, #B {
+          height: 20%;
+        }
+      }
   </style>
 </head>
 <body>
   <div id="doc">
     <div class="wrapper">
+      <div class="panel" id="R">
+        <span>R</span>
+      </div>
       <div class="panel" id="up">
         <span>Up</span>
+      </div>
+      <div class="panel" id="S">
+        <span>S</span>
       </div>
       <div class="panel" id="left">
         <span>Left</span>
       </div>
-      <div class="panel" id="center">
-        <span>手势区</span>
+      <div class="panel" id="C">
+        <span>C</span>
       </div>
       <div class="panel" id="right">
         <span>Right</span>
       </div>
+      <div class="panel" id="A">
+        <span>A</span>
+      </div>
       <div class="panel" id="down">
         <span>Down</span>
       </div>
+      <div class="panel" id="B">
+        <span>B</span>
+      </div>      
     </div>
   </div>
 </body>
