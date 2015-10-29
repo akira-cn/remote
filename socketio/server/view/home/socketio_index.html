@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" /    >
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="format-detection" content="telephone=no" /> 
+  <link rel="stylesheet" type="text/css" href="http://s6.qhimg.com/!6c2d8afc/base.css">
+  <title>Control Panel</title>
+  <style type="text/css">
+      *{      
+        -webkit-touch-callout: auto; /* prevent callout to copy image, etc when tap to hold */      
+        -webkit-text-size-adjust: none; /* prevent webkit from resizing text to fit */      
+        -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */       
+      }
+      ::-webkit-scrollbar {  
+        width: 0;  
+        height: 0;  
+      }  
+      html,body{
+        background: #DA8516;
+      }
+      #doc{
+        overflow: auto;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+      }
+      
+      .wrapper{
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+        display: block;
+      }
+
+      .panel{
+        display: table;
+        float: left;
+      }
+
+      .panel span{
+        text-align: center;
+        display: table-cell;
+        height: 100%;
+        vertical-align: middle;
+        color: #bbb;
+      }
+
+      #up {
+        width:100%;
+        height:15%;
+        background:#D0533F;
+      }
+      
+      #left {
+        width:20%;
+        height: 70%;
+        background:#494AA7;
+      }
+      
+      #center {
+        width: 60%;
+        height: 70%;
+        background: #888;
+      }
+
+      #right {
+        width:20%;
+        height: 70%;
+        background:#7E9F2E;
+      }
+
+      #down {
+        width:100%;
+        height: 15%;
+        background:#DA8516;
+      }
+
+  </style>
+</head>
+<body>
+  <div id="doc">
+    <div class="wrapper">
+      <div class="panel" id="up">
+        <span>Up</span>
+      </div>
+      <div class="panel" id="left">
+        <span>Left</span>
+      </div>
+      <div class="panel" id="center">
+        <span>手势区</span>
+      </div>
+      <div class="panel" id="right">
+        <span>Right</span>
+      </div>
+      <div class="panel" id="down">
+        <span>Down</span>
+      </div>
+    </div>
+  </div>
+</body>
+<script src="http://s2.qhimg.com/static/a9e451ace7e1fd1d/zepto.114.js"></script>
+<script src="http://s4.qhimg.com/static/535dde855bc726e2/socket.io-1.2.0.js"></script>
+<script src="/static/js/remote-client.js"></script>
+<script>
+document.body.addEventListener('touchmove', function(ev) {
+  ev.preventDefault();
+});
+
+var rc = new RemoteClient();
+
+</script>
+</html>

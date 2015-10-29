@@ -76,7 +76,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    server = null;
 	  }
 
-	  var socket = io(server || "http://www.h5jun.com:8360");
+	  var socket = io(server || "http://remote.baomitu.com:9699");
 	  var self = this;
 
 	  socket.on("connected", function(data){

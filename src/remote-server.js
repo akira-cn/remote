@@ -19,7 +19,7 @@ function Server(server, connected){
     server = null;
   }
 
-  var socket = io(server || "http://www.h5jun.com:8360");
+  var socket = io(server || "http://remote.baomitu.com:9699");
   var self = this;
   
   socket.on("connected", function(ev){
@@ -182,7 +182,7 @@ Server.prototype.off = function(type, func){
 }
 
 Server.prototype.drawQRCode = function(el, client){
-  client = client || 'http://www.h5jun.com/socketio/?sid=?';
+  client = client || 'http://remote.baomitu.com/socketio/?sid=?';
 
   if(typeof el === 'string'){
     el = document.getElementById(el);

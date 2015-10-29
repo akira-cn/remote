@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>socketio test</title>
+</head>
+<body>
+  <div id="qrcode"></div>
+  Test
+</body>
+<script src="http://s4.qhimg.com/static/535dde855bc726e2/socket.io-1.2.0.js"></script>
+<script src="/static/js/remote-server.js"></script>
+<script>
+var rs = new RemoteServer(function(){
+
+});
+rs.on('client_connected', function f(data){
+  console.log('client', data);
+  //rs.off('keydown', f);
+});
+rs.on('swipeleft', function f(data){
+  console.log(data);
+  //rs.off('keydown', f);
+});
+
+rs.on('pinchout', function f(data){
+  console.log(data);
+  //rs.off('keydown', f);
+});
+
+rs.on('left', function f(data){
+  console.log(data);
+});
+
+rs.drawQRCode();
+</script>
+</html>
