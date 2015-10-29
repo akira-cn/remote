@@ -31,7 +31,7 @@
 
 2. 创建RemoteServer()对象，注册要处理的事件方法
 
-3. 在网页打开后按TAB键唤出二维码，手机扫描二维码绑定控制器
+3. 在网页打开后**按TAB键**唤出二维码，手机扫描二维码绑定控制器
 
 4. 用控制器对远程网页进行控制。
 
@@ -45,7 +45,16 @@ keydown, keyup, keypress, swipestart, swipeend, swiping, pinchstart, pinchend, p
 
 ## 开发者高级功能
 
-*修改服务SDK*
+**修改二维码展现方式**
+
+默认的二维码展现方式是**按TAB键**显示出来，通过给drawQRCode传参的方式可以自定义二维码展现方式。
+
+```js
+var qrcodeEl = document.getElementById('qrcode');
+rs.drawQRCode(qrcodeEl);
+```
+
+**修改服务SDK**
 
 ```bash
 git clone https://github.com/akira-cn/remote.git
@@ -59,7 +68,7 @@ git clone https://github.com/akira-cn/remote.git
 
 4. 发布 dist/remote-server.umd.js
 
-*自定义遥控器*
+**自定义遥控器**
 
 1. 获取项目到本地
 
@@ -75,7 +84,7 @@ git clone https://github.com/akira-cn/remote.git
 rs.drawQRCode(null, "http://my.server/pathname/?sid=?");  //URL必须要带上参数sid
 ```
 
-*修改或自己部署 socket.io 中转服务*
+**修改或自己部署 socket.io 中转服务**
 
 remote远程控制是基于socket.io的，socket服务基本上只做配对和转发消息的功能，所以一般情况下不需要修改，如果希望消息服务走自己的服务器，可以自己部署。
 
