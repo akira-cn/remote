@@ -216,5 +216,7 @@ socket服务在 socketio/server 下，是基于 [thinkJS 2.0](http://new.thinkjs
 
 [mobvii](https://github.com/75team/mobvii/)
 
+[thinkjs](https://github.com/75team/thinkjs/)
+
 ## LICENSE
 [MIT](LICENSE)
