@@ -35,34 +35,111 @@
 
 4. 用控制器对远程网页进行控制。
 
-## 支持的事件
+## 基础事件
 
 * 基础键盘事件
 keydown, keyup, keypress
 
+```js
+var rs = new RemoteServer();
+rs.on('keypress', function(ev){
+	console.log('You pressed:' + ev.data.key);
+});
+```
+
 * 基础滑动手势（在C键上支持手势）
 swipestart, swipeend, swiping
+
+```js
+var rs = new RemoteServer();
+rs.on('swipeend', function(ev){
+	console.log('Swiped:' + ev.data.direction);
+});
+```
 
 * 基础缩放手势
 pinchstart, pinchend, pinch
 
+```js
+var rs = new RemoteServer();
+rs.on('pinchend', function(ev){
+	console.log('Scale:' + ev.data.scale);
+});
+```
+
 * 基础旋转手势
 rotate
+
+```js
+var rs = new RemoteServer();
+rs.on('rotate', function(ev){
+	console.log('Rotation:' + ev.data.rotation);
+	console.log('Direction:' + ev.data.direction);
+});
+```
 
 * 高级键盘事件
 A, B, C, R, S
 
+```js
+var rs = new RemoteServer();
+rs.on('R', function(){
+	console.log('R key pressed');
+});
+```
+
 * 高级滑动手势
 swipeup, swipedown, swipeleft, swiperight
+
+```js
+var rs = new RemoteServer();
+rs.on('swipeleft', function(){
+	Reveal.left();
+});
+```
 
 * 高级缩放手势
 pinchin, pinchout
 
+```js
+var rs = new RemoteServer();
+rs.on('pinchin', function(ev){
+	$(myEl).css('transform', 
+		'scale(' + ev.data.scale +')');
+});
+```
+
 * 高级旋转手势
 rotateleft, rotateright
 
+```js
+var rs = new RemoteServer();
+rs.on('rotateleft', function(ev){
+	...
+});
+```
+
+**基础事件基于百度 [TOUCH.JS](http://touch.code.baidu.com/)，更详细的可以参考相关说明**
+
+## 其他事件
+
 * 加速度和方向
 orientationchange, motionchange
+
+```js
+var rs = new RemoteServer();
+rs.on('orientationchange', function(ev){
+	//console.log(ev);
+	var d = ev.data.newValue;
+	if(d.beta * (d.gamma > 0 ? 1 : -1) > 20){
+		isDirKeyDown = true;
+		System.fireEvent("LeftKey");				
+	}else if(d.beta * (d.gamma > 0 ? 1 : -1) < -20){
+		isDirKeyDown = true;
+		System.fireEvent("RightKey");	
+	}
+});
+```
 
 ## 示例
 
@@ -130,3 +207,12 @@ rs.drawQRCode(null, "http://my.server/pathname/?sid=?");  //URL必须要带上�
 remote远程控制是基于socket.io的，socket服务基本上只做配对和转发消息的功能，所以一般情况下不需要修改，如果希望消息服务走自己的服务器，可以自己部署。
 
 socket服务在 socketio/server 下，是基于 [thinkJS 2.0](http://new.thinkjs.org/) 的服务，可以参考 thinkJS 文档进行部署。
+
+## Thanks
+
+[code.baidu](https://github.com/Clouda-team/touch.code.baidu.com)
+
+[qrcodejs](https://github.com/davidshimjs/qrcodejs)
+
+## LICENSE
+[MIT](LICENSE)
