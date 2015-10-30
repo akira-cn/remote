@@ -2,34 +2,46 @@
 
 /**
  * 
-    var client = new Remote.Client(server, function(err){
-      if(!err){
-          ...
-          client.trigger(...);
-      }else{
-          console.log('server error');
+    var client = new RemoteClient({
+      socket: 'http://myhost/pathname:port',
+      connected: function(err){
+        if(!err){
+            ...
+            client.trigger(...);
+        }else{
+            console.log('server error');
+        }
       }
     });
  */
 
 var touch = require('../lib/touch.js');
+var defaultConfig = {
+  socket: 'http://remote.baomitu.com:9699',
+  eventList: null,   //允许发送的事件，null为默认发送全部事件
+  orientationThredshold: 5,  //位置变化事件触发的最小度数
+  motionThreshold: 0.5 //加速度变化事件触发的最小值
+};
 
-function Client(server, connected){
-  if(typeof server === 'function'){
-    connected = server;
-    server = null;
+function Client(config){
+  config = config || {};
+  for(var i in defaultConfig){
+    if(!(i in config)){
+      config[i] = defaultConfig[i];
+    }
   }
+  this.config = config;
 
-  var socket = io(server || "http://remote.baomitu.com:9699");
+  var socket = io(config.socket);
   var self = this;
 
   socket.on("connected", function(data){
-    console.log(data);
+    //console.log(data);
     
     self.src = data.sid;
     self.target = data.tid;
 
-    connected && connected(data.err, socket);
+    config.connected && config.connected(ev.err, socket);
 
     self.trigger('client_connected', data);
   });
@@ -107,7 +119,7 @@ function Client(server, connected){
       var _beta = ev.beta;
       var _gamma = ev.gamma;
 
-      var threshold = 5;
+      var threshold = config.orientationThredshold;
       var da = Math.abs(_alpha - alpha),
           db = Math.abs(_beta - beta),
           dg = Math.abs(_gamma - gamma);
@@ -139,7 +151,7 @@ function Client(server, connected){
       var y = event.accelerationIncludingGravity.y;
       var z = event.accelerationIncludingGravity.z;  
 
-      var threshold = 0.5;
+      var threshold = config.motionThreshold;
 
       if(Math.abs(x - accelerationX) > threshold
         || Math.abs(y - accelerationY) > threshold
@@ -164,13 +176,26 @@ function Client(server, connected){
     });
   }
 
-  this.socket = socket;    
+  this.socket = socket;
+
+  socket.on('notify', function(ev){
+    if(ev && ev.data && ev.data.config){
+
+      var config = ev.data.config;
+      for(var i in config){
+        self.config[i] = config[i];
+      }
+    }
+  });    
 }
 
 Client.prototype.trigger = function(event, data){
-  var socket = this.socket;
-  socket && 
-  socket.emit("event", {type: event, src: this.src, data: data});
+  var config = this.config;
+  if(config.eventList == null || config.eventList.indexOf(event) >= 0){
+    var socket = this.socket;
+    socket && 
+    socket.emit("event", {type: event, src: this.src, data: data});
+  }
 }
 
 module.exports = {

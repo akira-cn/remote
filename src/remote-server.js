@@ -2,91 +2,93 @@ var QRCode = require('../lib/qrcode.js');
 
 /**
  * 
-    var client = new Remote.Client(server, function(err){
-      if(!err){
-          ...
-          client.trigger(...);
-      }else{
-          console.log('server error');
+    var server = new RemoteServer({
+      socket: 'http://myhost/pathname:port',
+      eventList: [],
+      connected: function(err){
+        if(!err){
+            ...
+            client.trigger(...);
+        }else{
+            console.log('server error');
+        }
       }
     });
+    server.drawQRCode();
  */
 var handlers = {};
+var defaultConfig = {
+  socket: 'http://remote.baomitu.com:9699',
+  client: 'http://remote.baomitu.com/socketio/?sid=?',
+  QRCodeKey: 9, //默认tab键
+  eventList: null,  //过滤接收的命令，默认为接收所有命令
+};
 
-function Server(server, connected){
-  if(typeof server === 'function'){
-    connected = server;
-    server = null;
+function Server(config){
+  config = config || {};
+  for(var i in defaultConfig){
+    if(!(i in config)){
+      config[i] = defaultConfig[i];
+    }
   }
+  this.config = config;
 
-  var socket = io(server || "http://remote.baomitu.com:9699");
+  var socket = io(config.socket);
   var self = this;
   
   socket.on("connected", function(ev){
     console.log(ev);
     self.src = ev.sid;
-    connected && connected(ev.err, socket);
+    config.connected && config.connected(ev.err, socket);
   });
   
   this.socket = socket;
 
+  function definedEventKey(type, ev){
+    if(ev.type === 'keypress'){
+      var data = ev.data;
+      if(data.key === type){
+        ev.realType = type;
+        return true;
+      }
+    } 
+  }
+
+  function definedEventRotate(type, ev){
+    if(ev.type === 'rotate'){
+      var data = ev.data;
+      if(data.direction === type.slice(6)){
+        ev.realType = type;
+        return true;
+      }
+    }      
+  }
+
+  function definedEventSwipe(type, ev){
+    if(ev.type === 'swipeend'){
+      var data = ev.data;
+      if(data.direction === type.slice(5)){
+        ev.realType = type;
+        return true;
+      }
+    }
+  }
+
   //默认的filter
   this.filters = {
-    'up': function(type, ev){
-      if(ev.type === 'keypress'){
-        var data = ev.data;
-        if(data.key === 'up'){
-          ev.realType = type;
-          return true;
-        }
-      }  
-    },
-    'down': function(type, ev){
-      if(ev.type === 'keypress'){
-        var data = ev.data;
-        if(data.key === 'down'){
-          ev.realType = type;
-          return true;
-        }
-      }  
-    },
-    'left': function(type, ev){
-      if(ev.type === 'keypress'){
-        var data = ev.data;
-        if(data.key === 'left'){
-          ev.realType = type;
-          return true;
-        }
-      }  
-    },
-    'right': function(type, ev){
-      if(ev.type === 'keypress'){
-        var data = ev.data;
-        if(data.key === 'right'){
-          ev.realType = type;
-          return true;
-        }
-      }  
-    },
-    'rotateleft': function(type, ev){
-      if(ev.type === 'rotate'){
-        var data = ev.data;
-        if(data.direction === 'left'){
-          ev.realType = type;
-          return true;
-        }
-      }        
-    },
-    'rotateright': function(type, ev){
-      if(ev.type === 'rotate'){
-        var data = ev.data;
-        if(data.direction === 'right'){
-          ev.realType = type;
-          return true;
-        }
-      }        
-    },
-    'pinchout': function(type, ev){
+    up:     definedEventKey,
+    down:   definedEventKey,
+    left:   definedEventKey,
+    right:  definedEventKey,
+    A:      definedEventKey,
+    B:      definedEventKey,
+    R:      definedEventKey,
+    S:      definedEventKey,
+
+    rotateleft: definedEventRotate,
+    rotateright: definedEventRotate,
+    
+    pinchout: function(type, ev){
       if(ev.type === 'pinchend'){
         var data = ev.data;
         if(data.scale > 1.0){
@@ -95,7 +97,7 @@ function Server(server, connected){
         }
       }        
     },
-    'pinchin': function(type, ev){
+    pinchin: function(type, ev){
       if(ev.type === 'pinchend'){
         var data = ev.data;
         if(data.scale < 1.0){
@@ -104,49 +106,63 @@ function Server(server, connected){
         }
       }        
     },
-    'swipeup': function(type, ev){
-      if(ev.type === 'swipeend'){
-        var data = ev.data;
-        if(data.direction === 'up'){
-          ev.realType = type;
-          return true;
-        }
-      }
-    },
-    'swipedown': function(type, ev){
-      if(ev.type === 'swipeend'){
-        var data = ev.data;
-        if(data.direction === 'down'){
-          ev.realType = type;
-          return true;
-        }
-      }
-    },
-    'swipeleft': function(type, ev){
-      if(ev.type === 'swipeend'){
-        var data = ev.data;
-        if(data.direction === 'left'){
-          ev.realType = type;
-          return true;
-        }
-      }
-    },
-    'swiperight': function(type, ev){
-      if(ev.type === 'swipeend'){
-        var data = ev.data;
-        if(data.direction === 'right'){
-          ev.realType = type;
-          return true;
-        }
-      }
-    },
+
+    swipeup: definedEventSwipe,
+    swipedown: definedEventSwipe,
+    swipeleft: definedEventSwipe,
+    swiperight: definedEventSwipe,
+
     'default': function(type, ev){
       ev.realType = type;
       return type === ev.type;
     }
   };
 
-  this.QRCodeKey = 9; //默认tab键
+  var eventListMaps = {
+    'up': 'keypress',
+    'down': 'keypress',
+    'left': 'keypress',
+    'right': 'keypress',
+    'A': 'keypress',
+    'B': 'keypress',
+    'C': 'keypress',
+    'R': 'keypress',
+    'S': 'keypress',
+
+    'rotateleft': 'rotate',
+    'rotateright': 'rotate',
+
+    'pinchin': 'pinchend',
+    'pinchout': 'pinchend',
+
+    'swipeup': 'swipeend',
+    'swipedown': 'swipeend',
+    'swipeleft': 'swipeend',
+    'swiperight': 'swipeend',
+  };
+
+  if(config.eventList != null){
+    this.on('client_connected', function(ev){
+      var eventList = config.eventList;
+      var realEventList = [];
+
+      for(var i = 0; i < eventList.length; i++){
+        var event = eventList[i];
+        event = eventListMaps[event] || event;
+
+        if(realEventList.indexOf(event) < 0){
+          realEventList.push(event);
+        }
+      }
+      //console.log('-->', ev);
+      var data = ev.data;
+      self.notify(data.sid, {
+        config: {
+          eventList: realEventList
+        }
+      });
+    });
+  }
 }
 
 Server.prototype.on = function(type, func){
@@ -182,7 +198,8 @@ Server.prototype.off = function(type, func){
 }
 
 Server.prototype.drawQRCode = function(el, client){
-  client = client || 'http://remote.baomitu.com/socketio/?sid=?';
+  var config = this.config;
+  client = client || config.client;
 
   if(typeof el === 'string'){
     el = document.getElementById(el);
@@ -194,7 +211,7 @@ Server.prototype.drawQRCode = function(el, client){
     el.style.cssText = 'position:absolute;display:inline-block;top:50%;left:50%;margin-top:-128px;margin-left:-128px;'
     mask.appendChild(el);
     document.body.appendChild(mask);
-    var QRCodeKey = this.QRCodeKey;
+    var QRCodeKey = config.QRCodeKey;
     document.body.onkeydown = function(ev){
       if(ev.keyCode === QRCodeKey){
         mask.style.display = mask.style.display === 'none'?'block':'none';
@@ -213,6 +230,17 @@ Server.prototype.drawQRCode = function(el, client){
       new QRCode(el, client.replace('=?', '='+self.src));
     });
   }
+}
+
+Server.prototype.notify = function(target, data){
+  if(typeof target !== 'string'){
+    data = target;
+    target = undefined;
+  }
+
+  var socket = this.socket;
+  socket && 
+  socket.emit("notify", {type: "notify", src: this.src, data: data, target: target});
 }
 
 module.exports = {

@@ -73,6 +73,7 @@ export default class extends Base {
     console.log('socket closed');
   }
   eventAction(){
+    //控制端发送消息给Web端
     console.log('event received');
     console.log(this.http.data);
 
@@ -93,6 +94,22 @@ export default class extends Base {
       //if(type){
       //  target.emit(type, data);
       //}
+    }
+  }
+  notifyAction(){
+    //Web端反向发送消息给控制端
+    var data = this.http.data;
+    console.log('notify-->', data);
+    
+    var tid = data.target;
+    var io = this.http.io,
+        socket = this.http.socket;
+    var connected = io.sockets.connected;
+    for(var i  in connected){
+      var s = connected[i];
+      if(s._tid === socket.id && (!tid || tid === s.id)){
+        s.emit('notify', data);
+      }
     }
   }
 }

@@ -8,5 +8,6 @@ export default {
     open: "home/socketio/open", // WebSocket 建立连接时处理的 Action
     close: "home/socketio/close", // WebSocket 关闭时处理的 Action
     event: "home/socketio/event", 
+    notify: "home/socketio/notify",
   }
 };

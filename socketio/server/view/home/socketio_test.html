@@ -11,8 +11,8 @@
 <script src="http://s4.qhimg.com/static/535dde855bc726e2/socket.io-1.2.0.js"></script>
 <script src="/static/js/remote-server.js"></script>
 <script>
-var rs = new RemoteServer(function(){
-
+var rs = new RemoteServer({
+  eventList: ['keydown', 'swipeleft']
 });
 /*rs.on('orientationchange', function f(data){
   console.log(data);

@@ -6,7 +6,7 @@
 
 ```html
 <script src="http://s4.qhimg.com/static/535dde855bc726e2/socket.io-1.2.0.js"></script>
-<script src="http://s8.qhimg.com/!e519dfc4/remote-server.umd.js"></script>
+<script src="http://s0.qhimg.com/!a4b912de/remote-server.js"></script>
 <script type="text/javascript">
   var rs = new RemoteServer();
   rs.on('keydown', function f(ev){
@@ -37,13 +37,40 @@
 
 ## 支持的事件
 
-keydown, keyup, keypress, swipestart, swipeend, swiping, pinchstart, pinchend, pinch, rotate
+* 基础键盘事件
+keydown, keyup, keypress
+
+* 基础滑动手势（在C键上支持手势）
+swipestart, swipeend, swiping
+
+* 基础缩放手势
+pinchstart, pinchend, pinch
+
+* 基础旋转手势
+rotate
+
+* 高级键盘事件
+A, B, C, R, S
+
+* 高级滑动手势
+swipeup, swipedown, swipeleft, swiperight
+
+* 高级缩放手势
+pinchin, pinchout
+
+* 高级旋转手势
+rotateleft, rotateright
+
+* 加速度和方向
+orientationchange, motionchange
 
 ## 示例
 
 [reveal slide](http://s.h5jun.com/slide)
 
 [赛车游戏](http://remote.baomitu.com/static/demo/race/index.html)
+
+![扫二维码开启遥控](http://p4.qhimg.com/d/inn/59991f4e/race.jpg)
 
 ## 开发者高级功能
 
@@ -54,6 +81,18 @@ keydown, keyup, keypress, swipestart, swipeend, swiping, pinchstart, pinchend, p
 ```js
 var qrcodeEl = document.getElementById('qrcode');
 rs.drawQRCode(qrcodeEl);
+```
+
+**配置遥控器事件列表**
+
+有时候，我们为了节省流量和提升速度，不希望大量不用处理的事件被发送给socket.io中转服务器，在RomoteServer上可以通过构造参数来指定需要发送的事件，这个参数指定的事件列表会在控制端RemoteClient连接建立时**反向推送**到遥控器，这样的话遥控器就可以只发送白名单中的事件（比如在不需要加速度移和方向移的应用中过滤掉这些可能被频繁发送的事件）
+
+```js
+var rs = new RemoteServer({
+	//让遥控器只发送keypress和swipeend事件
+	//其他事件将不会被发送
+  	eventList: ['keypress', 'swipeend']	
+});
 ```
 
 **修改服务SDK**
