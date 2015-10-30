@@ -35,6 +35,14 @@
 
 4. 用控制器对远程网页进行控制。
 
+## 示例
+
+[reveal slide](http://s.h5jun.com/slide)
+
+[赛车游戏](http://remote.baomitu.com/static/demo/race/index.html)
+
+![扫二维码开启遥控](http://p4.qhimg.com/d/inn/59991f4e/race.jpg)
+
 ## 基础事件
 
 * 基础键盘事件
@@ -140,14 +148,6 @@ rs.on('orientationchange', function(ev){
 	}
 });
 ```
-
-## 示例
-
-[reveal slide](http://s.h5jun.com/slide)
-
-[赛车游戏](http://remote.baomitu.com/static/demo/race/index.html)
-
-![扫二维码开启遥控](http://p4.qhimg.com/d/inn/59991f4e/race.jpg)
 
 ## 开发者高级功能
 
