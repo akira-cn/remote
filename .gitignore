@@ -5,7 +5,6 @@ nohup.out
 .settings
 .DS_Store
 sftp-config.json
-nginx.conf
 
 *~
 *.diff
