@@ -20,8 +20,8 @@ var handlers = {};
 var defaultConfig = {
   socket: 'http://remote.baomitu.com:9699',
   client: 'http://remote.baomitu.com/socketio/?sid=?',
-  QRCodeKey: 9, //默认tab键
-  eventList: null,  //过滤接收的命令，默认为接收所有命令
+  QRCodeKey: 9, //press 'TAB' key to show qrcode
+  eventList: null,  //Array or null: events to listen, set null to listen all events.
 };
 
 function Server(config){
@@ -37,7 +37,6 @@ function Server(config){
   var self = this;
   
   socket.on("connected", function(ev){
-    console.log(ev);
     self.src = ev.sid;
     config.connected && config.connected(ev.err, socket);
   });
@@ -74,7 +73,7 @@ function Server(config){
     }
   }
 
-  //默认的filter
+  //default event filters
   this.filters = {
     up:     definedEventKey,
     down:   definedEventKey,
@@ -154,7 +153,7 @@ function Server(config){
           realEventList.push(event);
         }
       }
-      //console.log('-->', ev);
+
       var data = ev.data;
       self.notify(data.sid, {
         config: {
@@ -169,7 +168,6 @@ Server.prototype.on = function(type, func){
   var filters = this.filters;
 
   var handler = function(ev){
-    //console.log(type, ev);
     var filter = filters[type] || filters['default'];
     if(filter.call(this, type, ev)){
       func.call(this, ev);

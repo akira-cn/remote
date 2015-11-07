@@ -1,8 +1,8 @@
-# Remote 远程控制SDK
+# Remote SDK
 
-基于socket.io的远程控制SDK，允许你的PC网页被手机终端远程控制
+Allowing your PC web page to be remote control by mobile device
 
-## 快速上手
+## Quick start
 
 ```html
 <script src="http://s4.qhimg.com/static/535dde855bc726e2/socket.io-1.2.0.js"></script>
@@ -11,14 +11,12 @@
   var rs = new RemoteServer();
   rs.on('keydown', function f(ev){
     var key = ev.data.key;
-    //console.log(ev);
     if(Reveal[key]){
       Reveal[key](); 
     }
   });
   rs.on('swipeend', function f(ev){
     var key = ev.data.direction;
-    //console.log(ev);
     if(Reveal[key]){
       Reveal[key](); 
     }
@@ -27,28 +25,23 @@
 </script>
 ```
 
-1. 在你要控制的网页上加上socket.io和remote-server.js
+1. Add [socket.io](https://github.com/socketio/socket.io) and [remote-server.js](http://s0.qhimg.com/!a4b912de/remote-server.js) to the web page you want to control.
 
-2. 创建RemoteServer()对象，注册要处理的事件方法
+2. Create a RemoteServer object, registered the events to handle.
 
-3. 调用drawQRCode()绘制二维码，二维码默认用TAB键唤起 
+3. Call drawQRCode function to draw two-dimensional code, two-dimensional code will be displayed by press **TAB** key on your web page.
 
-4. 在网页打开后**按TAB键**唤出二维码，手机扫描二维码绑定控制器
+4. Scan two-dimensional code on your web page with your mobile device.
 
-5. 用控制器对远程网页进行控制。
+5. Control your web page through your device.
 
-## 示例
+## Demo
 
-[reveal slide](http://s.h5jun.com/slide)
+[reveal slide](http://remote.baomitu.com/static/demo/reveal/index.html)
 
-[赛车游戏](http://remote.baomitu.com/static/demo/race/index.html)
+## Basic Events
 
-![扫二维码开启遥控](http://p4.qhimg.com/d/inn/59991f4e/race.jpg)
-
-## 基础事件
-
-* 基础键盘事件
-keydown, keyup, keypress
+* keydown, keyup, keypress
 
 ```js
 var rs = new RemoteServer();
@@ -57,8 +50,7 @@ rs.on('keypress', function(ev){
 });
 ```
 
-* 基础滑动手势（在C键上支持手势）
-swipestart, swipeend, swiping
+* swipestart, swipeend, swiping (on `C` key) 
 
 ```js
 var rs = new RemoteServer();
@@ -67,8 +59,7 @@ rs.on('swipeend', function(ev){
 });
 ```
 
-* 基础缩放手势
-pinchstart, pinchend, pinch
+* pinchstart, pinchend, pinch (on `C` key)
 
 ```js
 var rs = new RemoteServer();
@@ -77,8 +68,7 @@ rs.on('pinchend', function(ev){
 });
 ```
 
-* 基础旋转手势
-rotate
+* rotate (on `C` key)
 
 ```js
 var rs = new RemoteServer();
@@ -88,8 +78,7 @@ rs.on('rotate', function(ev){
 });
 ```
 
-* 高级键盘事件
-A, B, C, R, S
+* A, B, C, R, S (named key events)
 
 ```js
 var rs = new RemoteServer();
@@ -98,8 +87,7 @@ rs.on('R', function(){
 });
 ```
 
-* 高级滑动手势
-swipeup, swipedown, swipeleft, swiperight
+* swipeup, swipedown, swipeleft, swiperight (on `C` key)
 
 ```js
 var rs = new RemoteServer();
@@ -108,8 +96,7 @@ rs.on('swipeleft', function(){
 });
 ```
 
-* 高级缩放手势
-pinchin, pinchout
+* pinchin, pinchout (on `C` key)
 
 ```js
 var rs = new RemoteServer();
@@ -119,8 +106,7 @@ rs.on('pinchin', function(ev){
 });
 ```
 
-* 高级旋转手势
-rotateleft, rotateright
+* rotateleft, rotateright (on `C` key)
 
 ```js
 var rs = new RemoteServer();
@@ -129,17 +115,11 @@ rs.on('rotateleft', function(ev){
 });
 ```
 
-**基础事件基于百度 [TOUCH.JS](http://touch.code.baidu.com/)，更详细的可以参考相关说明**
-
-## 其他事件
-
-* 加速度和方向
-orientationchange, motionchange
+* orientationchange, motionchange
 
 ```js
 var rs = new RemoteServer();
 rs.on('orientationchange', function(ev){
-	//console.log(ev);
 	var d = ev.data.newValue;
 	if(d.beta * (d.gamma > 0 ? 1 : -1) > 20){
 		isDirKeyDown = true;
@@ -151,64 +131,61 @@ rs.on('orientationchange', function(ev){
 });
 ```
 
-## 开发者高级功能
+## For developers
 
-**修改二维码展现方式**
+**Change displaying mode fo QRCode**
 
-默认的二维码展现方式是**按TAB键**显示出来，通过给drawQRCode传参的方式可以自定义二维码展现方式。
+The default two-dimensional code displaying mode is press `TAB` key, pass a html element to the drawQRCode function can be customized to show the code.
 
 ```js
 var qrcodeEl = document.getElementById('qrcode');
 rs.drawQRCode(qrcodeEl);
 ```
 
-**配置遥控器事件列表**
-
-有时候，我们为了节省流量和提升速度，不希望大量不用处理的事件被发送给socket.io中转服务器，在RomoteServer上可以通过构造参数来指定需要发送的事件，这个参数指定的事件列表会在控制端RemoteClient连接建立时**反向推送**到遥控器，这样的话遥控器就可以只发送白名单中的事件（比如在不需要加速度移和方向移的应用中过滤掉这些可能被频繁发送的事件）
+**Filter Events**
 
 ```js
 var rs = new RemoteServer({
-	//让遥控器只发送keypress和swipeend事件
-	//其他事件将不会被发送
+	//Make the remote controller only send keypress and swipeend events
   	eventList: ['keypress', 'swipeend']	
 });
 ```
 
-**修改服务SDK**
+**Customize SDK**
 
 ```bash
 git clone https://github.com/akira-cn/remote.git
 ```
 
-1. 获取项目到本地
+1. Get latest code from github.
 
-2. 编辑 src/remote-server.js
+2. Edit src/remote-server.js
 
-3. 使用 [webpack](https://webpack.github.io) 构建项目
+3. Use [webpack](https://webpack.github.io) to build.
 
-4. 发布 dist/remote-server.umd.js
+4. Deploy dist/remote-server.umd.js
 
-**自定义遥控器**
+**Customize Remote Controller**
 
-1. 获取项目到本地
+1. Get laster code from github.
 
-2. 编辑 src/remote-client.js
+2. Edit src/remote-client.js
 
-3. 使用 [webpack](https://webpack.github.io) 构建项目
+3. Use [webpack](https://webpack.github.io) to build.
 
-4. 发布 dist/remote-client.umd.js
+4. Deploy dist/remote-client.umd.js
 
-5. 在使用服务SDK的时候，修改drawQRCode的参数使得二维码指向新的遥控器路径
+5. When calling drawQRCode, passing a new parameter to specify a new url.
 
 ```js
-rs.drawQRCode(null, "http://my.server/pathname/?sid=?");  //URL必须要带上参数sid
+rs.drawQRCode(null, "http://my.remote-service/pathname/?sid=?");  //URL必须要带上参数sid
 ```
 
-**修改或自己部署 socket.io 中转服务**
+**Customize socket.io service**
 
-remote远程控制是基于socket.io的，socket服务基本上只做配对和转发消息的功能，所以一般情况下不需要修改，如果希望消息服务走自己的服务器，可以自己部署。
+Remote control is based on socket, socket.io services basically only do the pairing and forwarding message function, so the code of socket.io service does not need to be modified, if you want the message service to run on your own server, you can get and deploy it.
 
-socket服务在 socketio/server 下，是基于 [thinkJS 2.0](http://new.thinkjs.org/) 的服务，可以参考 thinkJS 文档进行部署。
+Socket service is based on the [ThinkJS] (http://new.thinkjs.com/) framework, you can refer to the ThinkJS document.
 
 ## Thanks
 
@@ -222,3 +199,7 @@ socket服务在 socketio/server 下，是基于 [thinkJS 2.0](http://new.thinkjs
 
 ## LICENSE
 [MIT](LICENSE)
+
+## Chinese README
+
+[中文版](README_cn.md)
