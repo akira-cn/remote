@@ -1,6 +1,6 @@
 # Remote SDK
 
-Allowing your PC web page to be remote control by mobile device
+Allowing your PC web page to be remote controlled by mobile device
 
 ## Quick start
 
