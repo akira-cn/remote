@@ -1315,7 +1315,7 @@ void function(){
 				}, 1000);
 			});
 
-			rs.drawQRCode();
+			rs.drawQRCode(true);
 
 			Ucren.addEvent(document, "keydown", function(e){
 				e = Ucren.Event(e);

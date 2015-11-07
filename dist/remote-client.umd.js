@@ -74,9 +74,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	var touch = __webpack_require__(2);
 	var defaultConfig = {
 	  socket: 'http://remote.baomitu.com:9699',
-	  eventList: null,   //允许发送的事件，null为默认发送全部事件
-	  orientationThredshold: 5,  //位置变化事件触发的最小度数
-	  motionThreshold: 0.5 //加速度变化事件触发的最小值
+	  eventList: null,   //Array or null: event allow to send, set null to send all events.
+	  orientationThredshold: 5,  
+	  motionThreshold: 0.5 
 	};
 
 	function Client(config){
@@ -92,7 +92,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var self = this;
 
 	  socket.on("connected", function(data){
-	    //console.log(data);
 	    
 	    self.src = data.sid;
 	    self.target = data.tid;
@@ -123,13 +122,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  touch.on('.panel', 'tap', function(ev){
 	    var target = ev.target.parentNode;
 	    var id = target.id;
-	    //console.log(ev);
+
 	    self.trigger('keypress', {key: id, timeStamp: ev.timeStamp});  
 	  });
 
 	  touch.on('#C', 'swipestart swipeend swiping', function(ev){
 	    var target = ev.target.parentNode;
-	    //console.log(ev);
+
 	    self.trigger(ev.type, {
 	      timeStamp: ev.timeStamp,
 	      position: ev.position,
@@ -148,7 +147,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  touch.on('#C', 'pinchstart pinchend pinch', function(ev){
 	    var target = ev.target.parentNode;
-	    //console.log(ev);
+
 	    self.trigger(ev.type, {
 	      timeStamp: ev.timeStamp,
 	      direction: ev.direction,

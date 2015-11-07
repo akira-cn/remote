@@ -202,10 +202,12 @@ Server.prototype.drawQRCode = function(el, client){
   if(typeof el === 'string'){
     el = document.getElementById(el);
   }
-  if(!el){
+  if(el == null || typeof el === 'boolean'){
     var mask = document.createElement('div');
-    mask.style.cssText = 'display:none;position:absolute;width:100%;height:100%;left:0;top:0;background:rgba(0,0,0,0.618);z-index:99999999';
-    var el = document.createElement('div');
+    mask.style.cssText = 'position:absolute;width:100%;height:100%;left:0;top:0;background:rgba(0,0,0,0.618);z-index:99999999';
+    mask.style.display = el ? 'block' : 'none';
+
+    el = document.createElement('div');
     el.style.cssText = 'position:absolute;display:inline-block;top:50%;left:50%;margin-top:-128px;margin-left:-128px;'
     mask.appendChild(el);
     document.body.appendChild(mask);

@@ -6,7 +6,7 @@
 
 ```html
 <script src="http://s4.qhimg.com/static/535dde855bc726e2/socket.io-1.2.0.js"></script>
-<script src="http://s0.qhimg.com/!a4b912de/remote-server.js"></script>
+<script src="http://s7.qhimg.com/!70281da5/remote-server.js"></script>
 <script type="text/javascript">
   var rs = new RemoteServer();
   rs.on('keydown', function f(ev){

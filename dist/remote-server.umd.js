@@ -76,8 +76,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var defaultConfig = {
 	  socket: 'http://remote.baomitu.com:9699',
 	  client: 'http://remote.baomitu.com/socketio/?sid=?',
-	  QRCodeKey: 9, //默认tab键
-	  eventList: null,  //过滤接收的命令，默认为接收所有命令
+	  QRCodeKey: 9, //press 'TAB' key to show qrcode
+	  eventList: null,  //Array or null: events to listen, set null to listen all events.
 	};
 
 	function Server(config){
@@ -93,7 +93,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var self = this;
 	  
 	  socket.on("connected", function(ev){
-	    console.log(ev);
 	    self.src = ev.sid;
 	    config.connected && config.connected(ev.err, socket);
 	  });
@@ -130,7 +129,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  }
 
-	  //默认的filter
+	  //default event filters
 	  this.filters = {
 	    up:     definedEventKey,
 	    down:   definedEventKey,
@@ -210,7 +209,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          realEventList.push(event);
 	        }
 	      }
-	      //console.log('-->', ev);
+
 	      var data = ev.data;
 	      self.notify(data.sid, {
 	        config: {
@@ -225,7 +224,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var filters = this.filters;
 
 	  var handler = function(ev){
-	    //console.log(type, ev);
 	    var filter = filters[type] || filters['default'];
 	    if(filter.call(this, type, ev)){
 	      func.call(this, ev);
@@ -260,10 +258,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if(typeof el === 'string'){
 	    el = document.getElementById(el);
 	  }
-	  if(!el){
+	  if(el == null || typeof el === 'boolean'){
 	    var mask = document.createElement('div');
-	    mask.style.cssText = 'display:none;position:absolute;width:100%;height:100%;left:0;top:0;background:rgba(0,0,0,0.618);z-index:99999999';
-	    var el = document.createElement('div');
+	    mask.style.cssText = 'position:absolute;width:100%;height:100%;left:0;top:0;background:rgba(0,0,0,0.618);z-index:99999999';
+	    mask.style.display = el ? 'block' : 'none';
+
+	    el = document.createElement('div');
 	    el.style.cssText = 'position:absolute;display:inline-block;top:50%;left:50%;margin-top:-128px;margin-left:-128px;'
 	    mask.appendChild(el);
 	    document.body.appendChild(mask);
