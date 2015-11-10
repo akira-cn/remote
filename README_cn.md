@@ -39,7 +39,7 @@
 
 ## 示例
 
-[reveal slide](http://s.h5jun.com/slide)
+[reveal slide](http://s.h5jun.com/slide/welcome_to_fe_world/)
 
 [赛车游戏](http://remote.baomitu.com/static/demo/race/index.html)
 
